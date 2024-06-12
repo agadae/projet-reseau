@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "select.h": "c",
+        "types.h": "c",
+        "time.h": "c"
+    }
+}
