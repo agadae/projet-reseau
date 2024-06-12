@@ -338,6 +338,20 @@ class GameControl:
                                 RtdBob = bob
                                 Bob.die_online(RtdBob)
                 print("I received the killing packet")
+            
+            case "MOVE_B":
+                print("[<--] MOved Unit : " + packet.data)
+                datatab = packet.data.split(";")
+                for bob in self.listBobs:
+                    if bob.id == datatab[0]:
+                        if bob.owner == packet.PNAME:
+                            tile1 = self.getMap()[int(datatab[1])][int(datatab[2])]
+                            tile2 = self.getMap()[int(datatab[3])][int(datatab[4])]
+                            Bob.move_online(bob, tile1, tile2)
+                            #print(f"Bob {bob.id} moved from {tile1.getGameCoord()} to {tile2.getGameCoord()}")
+
+
+
                 
 
 

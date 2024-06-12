@@ -117,7 +117,8 @@ class Bob:
                             if (round(self.vision) != 0):
                                 self.scan()
                             self.determineNextTile()
-                            self.move()
+                            if self.owner == setting.pseudo:
+                                self.move()
                             self.PreviousTiles.append(self.CurrentTile)
                             self.interact()
             self.updateSpeed()  
@@ -127,7 +128,19 @@ class Bob:
     def move(self):
         self.CurrentTile.removeBob(self)
         self.NextTile.addBob(self)
+        send((Packet("MOVE_B","DICT",setting.pseudo, (str(self.id) + ";" + str(self.CurrentTile.gridX) + ";" + str(self.CurrentTile.gridY)+ ";" + str(self.NextTile.gridX)+ ";" + str(self.NextTile.gridY)+ ";" ))).stringify(),setting.ecriture_fd)
+        print(f"i moved from {self.CurrentTile.gridX},{self.CurrentTile.gridY} to {self.NextTile.gridX},{self.NextTile.gridY}")
         self.CurrentTile = self.NextTile
+
+
+    def move_online(self,tile1, tile2):
+        self.CurrentTile = tile1
+        self.CurrentTile.removeBob(self)
+        self.NextTile = tile2
+        self.NextTile.addBob(self)
+        self.CurrentTile = self.NextTile
+    
+    
 
     def updateSpeed(self):
         self.speedBuffer = round(self.speed - floor(self.speed), 2)
